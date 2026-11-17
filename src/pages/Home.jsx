@@ -5,17 +5,29 @@ import { useStartPlanning } from "../auth/useStartPlanning.js";
 import { useI18n } from "../i18n/I18nContext.jsx";
 
 export default function Home() {
-  const { t } = useI18n();
+  const { t, lang } = useI18n();
   const startPlanning = useStartPlanning();
 
   useEffect(() => {
-    document.title = "Safe Trip Planner | Explore the World Safely";
-  }, []);
+    document.title = `${t("home_title")} | Safe Trip Planner`;
+  }, [t]);
 
   const title = t("home_title");
-  const lastSpace = title.lastIndexOf(" ");
-  const firstTitle = lastSpace === -1 ? title : title.slice(0, lastSpace);
-  const lastTitle = lastSpace === -1 ? "" : title.slice(lastSpace + 1);
+  let firstTitle = title;
+  let lastTitle = "";
+
+  if (lang === "zh") {
+    if (title.length > 3) {
+      firstTitle = title.slice(0, title.length - 2);
+      lastTitle = title.slice(title.length - 2);
+    }
+  } else {
+    const lastSpace = title.lastIndexOf(" ");
+    firstTitle = lastSpace === -1 ? title : title.slice(0, lastSpace);
+    lastTitle = lastSpace === -1 ? "" : title.slice(lastSpace + 1);
+  }
+
+  const isLatin = lang === "en";
 
   const styles = {
     hero: {
@@ -51,8 +63,8 @@ export default function Home() {
       color: "#00796b",
       fontSize: "11px",
       fontWeight: 600,
-      letterSpacing: "2px",
-      textTransform: "uppercase",
+      letterSpacing: isLatin ? "2px" : "normal",
+      textTransform: isLatin ? "uppercase" : "none",
     },
 
     dot: {
@@ -67,10 +79,12 @@ export default function Home() {
     title: {
       margin: "0 0 20px",
       color: "#123047",
-      fontSize: "clamp(36px, 5vw, 48px)",
+      fontSize: "clamp(32px, 5vw, 48px)",
       fontWeight: 800,
-      lineHeight: 1.12,
-      letterSpacing: "-1.5px",
+      lineHeight: isLatin ? 1.12 : 1.25,
+      letterSpacing: isLatin ? "-1.5px" : "normal",
+      wordBreak: "break-word",
+      overflowWrap: "break-word",
     },
 
     accent: {
@@ -84,6 +98,8 @@ export default function Home() {
       color: "#526575",
       fontSize: "17px",
       lineHeight: 1.65,
+      wordBreak: "break-word",
+      overflowWrap: "break-word",
     },
 
     actions: {
@@ -106,7 +122,7 @@ export default function Home() {
       textDecoration: "none",
       fontSize: "13px",
       fontWeight: 800,
-      letterSpacing: "1.3px",
+      letterSpacing: isLatin ? "1.3px" : "normal",
       boxShadow: "0 12px 35px rgba(0,207,190,0.30)",
       transition: "transform 0.25s ease, box-shadow 0.25s ease",
     },
@@ -272,7 +288,7 @@ export default function Home() {
 {/*                   <strong>4.9/5</strong> */}
 {/*                 </div> */}
 
-                <div className="about-ribbon" /><span> Travel Smartly</span>
+                <div className="about-ribbon" /><span> {t("travel_safely")}</span>
               </div>
             </div>
 

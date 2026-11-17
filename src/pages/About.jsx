@@ -5,8 +5,8 @@ export default function About() {
   const { t } = useI18n();
 
   useEffect(() => {
-    document.title = "About | Safe Trip Planner";
-  }, []);
+    document.title = `${t("about")} | Safe Trip Planner`;
+  }, [t]);
 
   return (
     <main className="about-page">

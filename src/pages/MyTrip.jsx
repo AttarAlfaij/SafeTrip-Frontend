@@ -75,8 +75,8 @@ export default function MyTrip() {
   const [places, setPlaces] = useState([]);
 
   useEffect(() => {
-    document.title = "My Trip | Safe Trip Planner";
-  }, []);
+    document.title = `${t("my_trip")} | Safe Trip Planner`;
+  }, [t]);
 
   const loadMyTrip = useCallback(async () => {
     try {

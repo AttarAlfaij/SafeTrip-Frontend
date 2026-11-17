@@ -89,16 +89,20 @@
   display: block;
   font-size: 0.62rem;
   text-transform: uppercase;
-  letter-spacing: 0.2em;
+  letter-spacing: 0.15em;
   opacity: 0.65;
   color: #e5faff;
   margin-top: -0.05rem;
+  max-width: 240px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .stp-nav {
   display: flex;
   align-items: center;
-  gap: 1.8rem;
+  gap: 1.35rem;
   flex-wrap: wrap;
 }
 
@@ -106,7 +110,7 @@
   position: relative;
   font-size: 0.85rem;
   font-weight: 500;
-  letter-spacing: 0.07em;
+  letter-spacing: 0.05em;
   text-transform: uppercase;
   color: #dbeafe;
   text-decoration: none;
@@ -279,11 +283,32 @@
   color: #3c4043;
 }
 
+@media (max-width: 1060px) {
+  .stp-header-inner {
+    padding: 0.75rem 1.1rem;
+    gap: 0.8rem;
+  }
+
+  .stp-nav {
+    gap: 0.95rem;
+  }
+
+  .stp-nav a {
+    font-size: 0.82rem;
+    letter-spacing: 0.03em;
+  }
+
+  .stp-logo-sub {
+    max-width: 170px;
+  }
+}
+
 @media (max-width: 768px) {
   .stp-header-inner {
     flex-direction: column;
     align-items: flex-start;
     gap: 12px;
+    padding: 0.85rem 1rem;
   }
 
   .stp-nav {
@@ -292,20 +317,25 @@
     flex-wrap: wrap;
   }
 
-  .stp-nav-auth {
+  .stp-nav-actions {
     width: 100%;
-    flex-direction: column;
-    align-items: stretch;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .stp-nav-auth {
+    flex-direction: row;
+    align-items: center;
   }
 
   .stp-auth-buttons {
-    flex-direction: column;
-    width: 100%;
+    flex-direction: row;
   }
 
   .stp-login-link,
   .stp-google-link {
-    width: 100%;
+    width: auto;
     justify-content: center;
   }
 }

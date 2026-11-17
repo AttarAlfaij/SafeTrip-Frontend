@@ -6,14 +6,14 @@ import { apiFetch, getErrorMessage, readJson } from "../api/client.js";
 import { useI18n } from "../i18n/I18nContext.jsx";
 
 const MOODS = [
-  { value: "Tourist", label: "🗺 Tourist" },
-  { value: "Adventure", label: "🏔 Adventure" },
-  { value: "Historical", label: "🏛 Historical" },
-  { value: "Romantic", label: "💕 Romantic" },
-  { value: "Nature", label: "🌿 Nature" },
-  { value: "Relaxation", label: "☀ Relaxation" },
-  { value: "Spiritual", label: "🕌 Spiritual" },
-  { value: "Family Friendly", label: "👨‍👩‍👧 Family Friendly" },
+  { value: "Tourist", key: "tourist", label: "🗺 Tourist" },
+  { value: "Adventure", key: "adventure", label: "🏔 Adventure" },
+  { value: "Historical", key: "historical", label: "🏛 Historical" },
+  { value: "Romantic", key: "romantic", label: "💕 Romantic" },
+  { value: "Nature", key: "nature", label: "🌿 Nature" },
+  { value: "Relaxation", key: "relaxation", label: "☀ Relaxation" },
+  { value: "Spiritual", key: "spiritual", label: "🕌 Spiritual" },
+  { value: "Family Friendly", key: "family_friendly", label: "👨‍👩‍👧 Family Friendly" },
 ];
 
 const DEFAULT_FORM = { city: "", mood: "", days: "3" };
@@ -149,8 +149,8 @@ export default function PlanTrip() {
   const mapTimerRef = useRef(null);
 
   useEffect(() => {
-    document.title = "Plan Trip | Safe Trip Planner";
-  }, []);
+    document.title = `${t("plan_trip")} | Safe Trip Planner`;
+  }, [t]);
 
   useEffect(() => {
     localStorage.setItem(storageKeys.form, JSON.stringify(form));
@@ -584,7 +584,7 @@ export default function PlanTrip() {
                   <option value="">{t("mood_select")}</option>
                   {MOODS.map((mood) => (
                     <option key={mood.value} value={mood.value}>
-                      {mood.label}
+                      {t(mood.key) || mood.label}
                     </option>
                   ))}
                 </select>

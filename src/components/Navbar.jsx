@@ -114,7 +114,7 @@ export default function Navbar() {
                     border: "none",
                   }}
                 >
-                  Sign In
+                  {t("login") || "Sign In"}
                 </Link>
               </div>
             ) : null}

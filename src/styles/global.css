@@ -25,15 +25,51 @@ html {
 }
 
 body {
-  font-family: "Poppins", system-ui, -apple-system, BlinkMacSystemFont,
-    "Segoe UI", sans-serif;
+  font-family: "Poppins", "Noto Sans Devanagari", "Noto Sans SC", "PingFang SC",
+    "Microsoft YaHei", "Nirmala UI", system-ui, -apple-system,
+    BlinkMacSystemFont, "Segoe UI", sans-serif;
   color: var(--text-main);
   line-height: 1.6;
   min-height: 100vh;
 }
 
+/* Language-specific Typography and Script Optimization */
+:lang(hi),
+[lang="hi"],
+[lang="hi"] body {
+  font-family: "Noto Sans Devanagari", "Nirmala UI", "Poppins", system-ui,
+    -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  line-height: 1.7;
+}
+
+:lang(zh),
+[lang="zh"],
+[lang="zh"] body {
+  font-family: "Noto Sans SC", "PingFang SC", "Microsoft YaHei", "Heiti SC",
+    "Poppins", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
+  line-height: 1.6;
+}
+
+/* Devanagari & Chinese script glyph protection:
+   Letter-spacing breaks Devanagari shirorekha and ligatures;
+   Uppercase does not exist in Devanagari or Chinese scripts. */
+:lang(hi) *,
+[lang="hi"] *,
+:lang(zh) *,
+[lang="zh"] * {
+  letter-spacing: normal !important;
+  text-transform: none !important;
+}
+
 body.has-navbar {
   padding-top: 78px;
+}
+
+@media (max-width: 768px) {
+  body.has-navbar {
+    padding-top: 135px;
+  }
 }
 
 a {
@@ -68,11 +104,15 @@ img {
 .section-title {
   font-size: 1.9rem;
   margin-bottom: 0.35rem;
+  word-break: break-word;
+  overflow-wrap: break-word;
 }
 
 .section-subtitle {
   font-size: 0.98rem;
   color: var(--text-muted);
+  word-break: break-word;
+  overflow-wrap: break-word;
 }
 
 .btn-primary {
