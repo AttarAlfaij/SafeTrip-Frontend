@@ -1,0 +1,24 @@
+{
+  "rewrites": [
+    {
+      "source": "/api/:path*",
+      "destination": "https://safetrip-backend-2.onrender.com/api/:path*"
+    },
+    {
+      "source": "/oauth2/:path*",
+      "destination": "https://safetrip-backend-2.onrender.com/oauth2/:path*"
+    },
+    {
+      "source": "/login/oauth2/:path*",
+      "destination": "https://safetrip-backend-2.onrender.com/login/oauth2/:path*"
+    },
+    {
+      "source": "/logout",
+      "destination": "https://safetrip-backend-2.onrender.com/logout"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ]
+}
