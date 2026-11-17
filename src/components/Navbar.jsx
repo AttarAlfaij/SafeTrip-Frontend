@@ -3,7 +3,6 @@ import { useAuth } from "../auth/AuthContext.jsx";
 import { useStartPlanning } from "../auth/useStartPlanning.js";
 import { useI18n } from "../i18n/I18nContext.jsx";
 import { SUPPORTED_LANGUAGES } from "../i18n/translations.js";
-import { oauthLoginUrl } from "../api/config.js";
 
 const LINKS = [
   {
@@ -117,18 +116,6 @@ export default function Navbar() {
                 >
                   Sign In
                 </Link>
-                <a
-                  href={oauthLoginUrl("github")}
-                  className="stp-login-link"
-                >
-                  GitHub
-                </a>
-                <a
-                  href={oauthLoginUrl("google")}
-                  className="stp-google-link"
-                >
-                  Google
-                </a>
               </div>
             ) : null}
           </div>

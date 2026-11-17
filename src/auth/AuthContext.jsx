@@ -19,7 +19,16 @@ const AuthContext = createContext(null);
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
   const [token, setToken] = useState(() => localStorage.getItem("token"));
-  const [loading, setLoading] = useState(() => Boolean(localStorage.getItem("token")));
+  const [loading, setLoading] = useState(() => {
+    if (typeof window !== "undefined") {
+      const params = new URLSearchParams(window.location.search);
+      if (params.has("code")) {
+        return true;
+      }
+      return Boolean(localStorage.getItem("token"));
+    }
+    return false;
+  });
 
   const saveAuthSession = useCallback((authToken, authUser) => {
     if (authToken) {
@@ -79,8 +88,56 @@ export function AuthProvider({ children }) {
   }, [clearAuthSession, saveAuthSession]);
 
   useEffect(() => {
-    refresh();
-  }, [refresh]);
+    let active = true;
+    const searchParams = typeof window !== "undefined"
+      ? new URLSearchParams(window.location.search)
+      : null;
+    const code = searchParams ? searchParams.get("code") : null;
+
+    if (code) {
+      setLoading(true);
+      const cleanUrl = window.location.pathname + window.location.hash;
+      window.history.replaceState({}, document.title, cleanUrl);
+
+      fetch(apiUrl("/auth/oauth/exchange"), {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({ code }),
+      })
+        .then(async (res) => {
+          if (!res.ok) {
+            const err = await getErrorMessage(res, "OAuth exchange failed.");
+            throw new Error(err);
+          }
+          return readJson(res);
+        })
+        .then((data) => {
+          if (active && data && data.token) {
+            saveAuthSession(data.token, data);
+          }
+        })
+        .catch((err) => {
+          console.error("OAuth code exchange failed:", err);
+          if (active) {
+            clearAuthSession();
+          }
+        })
+        .finally(() => {
+          if (active) {
+            setLoading(false);
+          }
+        });
+    } else {
+      refresh();
+    }
+
+    return () => {
+      active = false;
+    };
+  }, [refresh, saveAuthSession, clearAuthSession]);
 
   useEffect(() => {
     const handleUnauthorized = () => {
